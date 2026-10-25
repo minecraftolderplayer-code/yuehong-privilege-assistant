@@ -1,9 +1,9 @@
 name: Build YueHong APK
 
 on:
-  workflow_dispatch: # 允许在网页上手动点击按钮触发
+  workflow_dispatch:
   push:
-    branches: [ "main", "master" ] # 推送到主分支时自动触发
+    branches: [ "main", "master" ]
 
 jobs:
   build:
@@ -21,14 +21,14 @@ jobs:
         cache: gradle
 
     - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+      uses: android-actions/setup-android@v4
+      with:
+        packages: 'platform-tools'
 
-    # 如果官方要求的 NDK 29 下载不到，可能会在这里报错。
-    # 也可以直接注释掉这段，让 Gradle 根据项目配置自动下载 NDK。
     - name: Setup NDK
       uses: nttld/setup-ndk@v1
       with:
-        ndk-version: r29 # 对应 29.0.13113456
+        ndk-version: r29
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
